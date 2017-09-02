@@ -19,12 +19,16 @@ The client is powered by [React Native](https://facebook.github.io/react-native/
 ### Setup
 
 1. Make sure [Node.js](https://nodejs.org/en/download/) version 6 or greater is installed ([nvm](https://github.com/creationix/nvm) recommended for managing Node.js versions in development).
-2. Make sure [Yarn is installed](https://yarnpkg.com/en/docs/install).
+2. react-native isn't compatible with `npm@5`. Make sure `npm@4` is installed:
+
+    ```shell
+    $ npm install -g npm@4.6.1
+    ```
 3. Install client dependencies:
 
     ```shell
     $ cd client
-    $ yarn
+    $ npm install
     ```
 
 ### Development
@@ -32,13 +36,13 @@ The client is powered by [React Native](https://facebook.github.io/react-native/
 To develop, change directories to `client` and start a simulator:
 
 ```shell
-$ yarn run ios # (Mac only, requires Xcode)
-$ yarn run android (Requires Android build tools)
+$ npm run ios # (Mac only, requires Xcode)
+$ npm run android (Requires Android build tools)
 ```
 
 You can also start the development server separately:
 
 ```shell
-$ yarn start
+$ npm start
 ```
 
