@@ -1,0 +1,43 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bcrypt (3.1.11)
+    coderay (1.1.1)
+    dotenv (2.2.0)
+    jwt (1.5.6)
+    kgio (2.11.0)
+    method_source (0.8.2)
+    pg (0.21.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    rack (2.0.3)
+    raindrops (0.18.0)
+    roda (2.28.0)
+      rack
+    rodauth (1.11.0)
+      roda (>= 2.6.0)
+      sequel (>= 4)
+    sequel (4.49.0)
+    slop (3.6.0)
+    unicorn (5.3.0)
+      kgio (~> 2.6)
+      raindrops (~> 0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bcrypt
+  dotenv
+  jwt
+  pg
+  pry
+  roda
+  rodauth
+  sequel
+  unicorn
+
+BUNDLED WITH
+   1.14.6
