@@ -1,0 +1,13 @@
+version: '2'
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: rackup -p 3001
+    volumes:
+      - .:/beer
+    ports:
+      - "3001:3001"
+    links:
+      - db
