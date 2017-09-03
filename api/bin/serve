@@ -15,9 +15,8 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   puts "\n== Migrating database =="
-  system! 'sequel -m db/migrate postgres://localhost/beer'
+  system! 'sequel -m db/migrate $DATABASE_URL'
 
   puts "\n== Starting application server =="
-  system! "rackup -p 3000"
+  system! "rackup -p 3000 -o 0.0.0.0"
 end
-

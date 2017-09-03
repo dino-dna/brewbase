@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 
 RUN gem install bundler && \
     apt-get update && \
-    apt-get install -y build-essential git nodejs libpq-dev && \
+    apt-get install -y build-essential libpq-dev && \
     bundle install --deployment
 
 COPY . /usr/src/app

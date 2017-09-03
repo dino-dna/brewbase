@@ -1,13 +1,28 @@
 version: '2'
+volumes:
+  database_data:
+    driver: local
+  bundle_cache:
+    driver: local
 services:
   db:
-    image: postgres
+    image: postgres:9.6
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: brewz
+      POSTGRES_DB: brewbase_dev
   web:
     build: .
-    command: rackup -p 3001
     volumes:
-      - .:/beer
+      - .:/usr/src/app
+      - bundle_cache:/usr/local/bundle
     ports:
-      - "3001:3001"
-    links:
+      - 3000:3000
+    depends_on:
       - db
+    environment:
+      DATABASE_URL: postgres://brewz:password@db:5432/brewbase_dev
+    stdin_open: true
+    tty: true
