@@ -37,7 +37,7 @@ To develop, change directories to `client` and start a simulator:
 
 ```shell
 $ npm run ios # (Mac only, requires Xcode)
-$ npm run android (Requires Android build tools)
+$ npm run android # (Requires Android build tools)
 ```
 
 You can also start the development server separately:
