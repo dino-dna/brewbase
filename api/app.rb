@@ -27,9 +27,9 @@ class App < Roda
 
   route do |r|
     r.rodauth
-    rodauth.require_authentication
 
     r.on 'beverage' do
+      rodauth.require_authentication
       r.is ':id' do
         @beverage = 'testing'
 
