@@ -1,0 +1,19 @@
+{
+  "env": {
+    "jest/globals": true
+  },
+  "extends": "airbnb",
+  "plugins": [
+    "jest"
+  ],
+  "rules": {
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "never"
+    }],
+    "react/prefer-stateless-function": [0]
+  }
+}
