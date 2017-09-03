@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import LoginForm from './src/components/LoginForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,12 +13,59 @@ const styles = StyleSheet.create({
 });
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loginValue: '',
+      passwordValue: '',
+      message: null,
+      messageType: null,
+    };
+
+    this.onLoginChange = this.onLoginChange.bind(this);
+    this.onPasswordChange = this.onPasswordChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onLoginChange(value) {
+    this.setState(Object.assign({}, this.state, {
+      loginValue: value,
+    }));
+  }
+
+  onPasswordChange(value) {
+    this.setState(Object.assign({}, this.state, {
+      passwordValue: value,
+    }));
+  }
+
+  onSubmit() {
+    this.setState(Object.assign({}, this.state, {
+      message: 'Success!',
+      type: 'success',
+    }));
+  }
+
   render() {
+    const {
+      loginValue,
+      message,
+      messageType,
+      passwordValue,
+    } = this.state;
+
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <LoginForm
+          loginValue={loginValue}
+          message={message}
+          messageType={messageType}
+          onLoginChange={this.onLoginChange}
+          onPasswordChange={this.onPasswordChange}
+          onSubmit={this.onSubmit}
+          passwordValue={passwordValue}
+        />
       </View>
     );
   }
