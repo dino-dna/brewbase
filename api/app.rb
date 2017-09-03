@@ -21,6 +21,8 @@ class App < Roda
   plugin :rodauth, json: :only do
     db DB
     enable :create_account, :login, :logout, :jwt
+    require_login_confirmation? { false }
+    require_password_confirmation? { false }
     jwt_secret secret
   end
   plugin :symbol_status
