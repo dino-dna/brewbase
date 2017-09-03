@@ -121,6 +121,7 @@ export default class LoginForm extends Component {
         {this.renderMessage()}
         <Text style={styles.title}>LOG IN</Text>
         <TextInput
+          autoCapitalize="none"
           keyboardType="email-address"
           onChangeText={onLoginChange}
           placeholder="Email"
@@ -130,6 +131,7 @@ export default class LoginForm extends Component {
           value={loginValue}
         />
         <TextInput
+          autoCapitalize="none"
           onChangeText={onPasswordChange}
           placeholder="Password"
           placeholderTextColor="#98997f"
