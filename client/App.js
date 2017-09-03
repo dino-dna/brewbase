@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   },
 });
 
-/* eslint-disable react/jsx-filename-extension */
 export default class App extends React.Component {
   render() {
     return (
@@ -22,4 +21,3 @@ export default class App extends React.Component {
     );
   }
 }
-/* eslint-enable react/jsx-filename-extension */
