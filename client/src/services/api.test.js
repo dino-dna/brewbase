@@ -10,6 +10,9 @@ describe('API service', () => {
   const password = 'secretsss';
 
   const getErrorResponse = () => () => Promise.resolve({
+    json() {
+      return Promise.resolve(json);
+    },
     ok: false,
     status: errorStatus,
     statusText: errorStatusText,

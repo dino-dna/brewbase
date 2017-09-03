@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import api from './src/services/api';
 import LoginForm from './src/components/LoginForm';
 
 const styles = StyleSheet.create({
@@ -41,10 +42,24 @@ export default class App extends React.Component {
   }
 
   onSubmit() {
-    this.setState(Object.assign({}, this.state, {
-      message: 'Success!',
-      type: 'success',
-    }));
+    const { loginValue, passwordValue } = this.state;
+
+    api.login({
+      login: loginValue,
+      password: passwordValue,
+    })
+      .then((response) => {
+        this.setState(Object.assign({}, this.state, {
+          message: response.toString(),
+          type: 'success',
+        }));
+      })
+      .catch((error) => {
+        this.setState(Object.assign({}, this.state, {
+          message: error.message,
+          type: 'error',
+        }));
+      });
   }
 
   render() {
