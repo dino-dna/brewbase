@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../actions/account';
+import { ACCOUNT_LOGIN, ACCOUNT_LOGOUT } from '../actions/account';
 
 const initialState = {
   email: null,
@@ -7,12 +7,12 @@ const initialState = {
 
 const accountReducer = (state = initialState, { payload, type }) => {
   switch (type) {
-    case LOGIN:
+    case ACCOUNT_LOGIN:
       return {
         email: payload.email,
         token: payload.token,
       };
-    case LOGOUT:
+    case ACCOUNT_LOGOUT:
       return initialState;
     default:
       return state;
