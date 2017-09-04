@@ -14,9 +14,19 @@ chdir APP_ROOT do
   puts '== Verifying dependencies =='
   system('bundle check') || system!('bundle install')
 
+  puts "\n== Configuring app =="
+  system('rake setup[Brewbase]')
+
   puts "\n== Migrating database =="
-  system! 'sequel -m db/migrate $DATABASE_URL'
+  system! %{
+    rake test_up
+    rake dev_up
+    rake prod_up
+  }
+
+  puts "\n== Installing Thin =="
+  system! "gem install thin"
 
   puts "\n== Starting application server =="
-  system! "rackup -p 3000 -o 0.0.0.0"
+  system! "bundle exec thin -R config.ru -p 3000 -a 0.0.0.0 -V start"
 end

@@ -1,18 +1,27 @@
 require 'digest'
+require 'date'
+require 'json'
+require File.expand_path '../../models/datum.rb', __FILE__
+require File.expand_path '../../models/device.rb', __FILE__
 
-class Webhook < Sequel::Model(DB[:datas])
-  def self.process(webhook_data, processor: Webhook::Particle)
-    data = new(processor.new(webhook_data).mapped_fields)
+class WebhookProcessor
+  attr_reader :webhook_data, :processor
 
+  def initialize(webhook_data, processor: Particle)
+    @webhook_data = webhook_data
+    @processor = processor
+  end
+
+  def process
     if Device.first(external_id: data.device_external_id).nil?
       Device.new(external_id: data.device_external_id).save
     end
 
-    data.save if new_event?(data.event_id)
+    data.save if data.new_event?
   end
 
-  def new_event?(event_id)
-    Device.first(event_id: event_id).nil?
+  def data
+    @data ||= Datum.new(processor.new(webhook_data).mapped_fields)
   end
 
   Particle = Struct.new(:webhook) do

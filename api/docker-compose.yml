@@ -6,13 +6,9 @@ volumes:
     driver: local
 services:
   db:
-    image: postgres:9.6
+    build: ./db/
     volumes:
       - database_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: brewz
-      POSTGRES_DB: brewbase_dev
   web:
     build: .
     volumes:
@@ -22,7 +18,5 @@ services:
       - 3000:3000
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgres://brewz:password@db:5432/brewbase_dev
     stdin_open: true
     tty: true

@@ -1,0 +1,5 @@
+log/
+tmp/
+vendor/
+.env.rb
+.session_secret

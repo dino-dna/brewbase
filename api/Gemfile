@@ -2,11 +2,14 @@
 source 'https://rubygems.org'
 
 gem 'bcrypt'
-gem 'dotenv'
 gem 'jwt'
 gem 'pg'
 gem 'roda'
 gem 'rodauth'
-gem 'sequel'
-gem 'pry'
-gem 'unicorn'
+gem 'sequel', '<5.0'
+gem 'thin'
+
+group :test do
+  gem 'pry'
+  gem 'rspec'
+end
