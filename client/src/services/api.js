@@ -1,65 +1,110 @@
 /* global fetch,Headers */
+import forEach from 'lodash/forEach';
 
 const API_BASE = 'http://localhost:3000';
 
 const api = {
-  login({ login, password }) {
+  /**
+   * Get a formatted URL.
+   * @private
+   *
+   * @param {string} route
+   * @returns {string}
+   */
+  getURL(route) {
+    return `${API_BASE}/${route.replace(/^\/?(.*)/, '$1')}`;
+  },
+
+  /**
+   * Do a request.
+   * @private
+   *
+   * @param {Object} options
+   * @param {Object} [options.data] Request payload
+   * @param {Object} [options.headers] Request headers
+   * @param {string} options.method HTTP method
+   * @param {string} options.route API URL route
+   * @returns {Promise<Object,Error>}
+   */
+  request({
+    data,
+    headers: headerParams,
+    method,
+    route,
+  }) {
     const headers = new Headers();
 
-    headers.append('Content-Type', 'application/json');
+    forEach(headerParams, (value, key) => {
+      headers.append(key, value);
+    });
 
-    return fetch(
-      `${API_BASE}/login`,
-      {
-        body: JSON.stringify({ login, password }),
-        headers,
-        method: 'POST',
-      }
-    )
+    const options = {
+      headers,
+      method,
+    };
+
+    if (data) {
+      headers.append('Content-Type', 'application/json');
+      options.body = JSON.stringify(data);
+    }
+
+    return fetch(api.getURL(route), options)
       .then(response => Promise.all([response, response.json()]))
       .then(([response, json]) => {
+        const formattedResponse = {
+          data: json,
+          headers: Array.from(response.headers.entries()).reduce(
+            (memo, [key, value]) => {
+              memo[key] = value; // eslint-disable-line no-param-reassign
+              return memo;
+            },
+            {}
+          ),
+          status: response.status,
+          statusText: response.statusText,
+          url: response.url,
+        };
+
         if (!response.ok) {
-          // TODO: Test error branching
+          let message = `Error requesting ${response.url}: `;
+
           if (json.error) {
-            throw new Error(json.error);
+            message += json.error;
           } else if (response.statusText) {
-            throw new Error(`Login error: ${response.statusText}`);
+            message += response.statusText;
           } else {
-            throw new Error(`Login error: ${response.status}`);
+            message += response.status;
           }
+
+          const error = new Error(message);
+          error.response = formattedResponse;
+          throw error;
         }
 
-        return json;
+        return formattedResponse;
       });
   },
 
-  signup({ login, password }) {
-    const headers = new Headers();
+  login({ email, password }) {
+    return api.request({
+      data: {
+        login: email,
+        password,
+      },
+      method: 'POST',
+      route: '/login',
+    });
+  },
 
-    headers.append('Content-Type', 'application/json');
-
-    return fetch(
-      `${API_BASE}/create-account`,
-      {
-        body: JSON.stringify({ login, password }),
-        headers,
-        method: 'POST',
-      }
-    )
-      .then(response => Promise.all([response, response.json()]))
-      .then(([response, json]) => {
-        if (!response.ok) {
-          if (json.error) {
-            throw new Error(json.error);
-          } else if (response.statusText) {
-            throw new Error(`Signup error: ${response.statusText}`);
-          } else {
-            throw new Error(`Signup error: ${response.status}`);
-          }
-        }
-
-        return json;
-      });
+  signup({ email, password }) {
+    return api.request({
+      data: {
+        login: email,
+        password,
+      },
+      method: 'POST',
+      route: '/create-account',
+    });
   },
 };
 

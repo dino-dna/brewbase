@@ -39,10 +39,7 @@ export const submit = form => (dispatch, getState) => {
 
   const { forms: formsState } = getState();
 
-  const payload = {
-    login: formsState[form].email,
-    password: formsState[form].password,
-  };
+  const payload = formsState[form];
 
   const method = form === 'signup' ?
     api.signup :
