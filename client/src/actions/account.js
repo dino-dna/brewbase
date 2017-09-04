@@ -15,34 +15,29 @@ export const accountLogout = () => ({
   type: ACCOUNT_LOGOUT,
 });
 
-export const login = ({ email, password }) => dispatch => {
-  // TODO: Implement loading indicator
-  // dispatch(loading());
-
-  return api.login({ email, password })
+// TODO: Move to middleware
+// TODO: Implement loading indicator
+export const login = ({ email, password }) => dispatch =>
+  api.login({ email, password })
     .then((response) => {
       dispatch(accountLogin({
         email,
         token: response.headers.Authorization,
       }));
       dispatch(push('/dashboard'));
-    })
-    .catch((error) => {
+      return response;
     });
-};
 
-export const signup = ({ email, password }) => dispatch => {
-  // TODO: Implement loading indicator
-  //
-  return api.signup({ email, password })
+// TODO: Move to middleware
+// TODO: Implement loading indicator
+export const signup = ({ email, password }) => dispatch =>
+  api.signup({ email, password })
     .then((response) => {
       dispatch(accountLogin({
         email,
         token: response.headers.Authorization,
       }));
       dispatch(push('/dashboard'));
-    })
-    .catch((error) => {
+      return response;
     });
-};
 

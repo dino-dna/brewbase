@@ -1,4 +1,4 @@
-import api from '../services/api';
+import { login, signup } from './account';
 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const CHANGE_LOGIN = 'CHANGE_LOGIN';
@@ -41,19 +41,15 @@ export const submit = form => (dispatch, getState) => {
 
   const payload = formsState[form];
 
-  const method = form === 'signup' ?
-    api.signup :
-    api.login;
+  const method = form === 'signup' ? signup : login;
 
-  return method(payload)
-    .then((response) => {
+  // TODO: Turn signup/login into middleware so `dispatch` injection isn't
+  // needed
+  return method(payload)(dispatch)
+    .then(() => {
       dispatch({
         type: SUBMIT_END,
       });
-      dispatch(addMessage(form, {
-        text: response.toString(),
-        type: 'success',
-      }));
     })
     .catch((error) => {
       dispatch({
