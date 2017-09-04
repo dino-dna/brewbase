@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import {
-  changeLogin,
-  changePassword,
-  submit,
-} from '../actions/forms';
-import colors from '../styles/colors';
+import { changeField, submit } from '../actions/forms';
 import Button from '../components/Button';
 import Message from '../components/Message';
 import FormInput from '../components/FormInput';
@@ -35,15 +30,14 @@ const styles = StyleSheet.create({
 class LoginForm extends Component {
   renderMessage() { // eslint-disable-line consistent-return
     const {
-      messageText,
-      messageType,
+      message: { text, type },
     } = this.props;
 
-    if (messageText) {
+    if (text) {
       return (
         <Message
-          text={messageText}
-          type={messageType}
+          text={text}
+          type={type}
         />
       );
     }
@@ -51,11 +45,11 @@ class LoginForm extends Component {
 
   render() {
     const {
-      loginValue,
-      onLoginChange,
+      email,
+      onEmailChange,
       onPasswordChange,
       onSubmit,
-      passwordValue,
+      password,
     } = this.props;
 
     return (
@@ -65,10 +59,11 @@ class LoginForm extends Component {
         <View style={styles.loginInput}>
           <FormInput
             keyboardType="email-address"
-            onChangeText={onLoginChange}
+            onChangeText={onEmailChange}
             placeholder="Email"
             returnKeyType="next"
-            value={loginValue}
+            secureTextEntry={false}
+            value={email}
           />
         </View>
         <View style={styles.passwordInput}>
@@ -77,7 +72,7 @@ class LoginForm extends Component {
             placeholder="Password"
             returnKeyType="send"
             secureTextEntry
-            value={passwordValue}
+            value={password}
           />
         </View>
         <Button
@@ -93,42 +88,38 @@ class LoginForm extends Component {
 LoginForm.displayName = 'LoginForm';
 
 LoginForm.defaultProps = {
-  messageText: '',
-  messageType: 'success',
+  message: {
+    text: '',
+    type: Message.types[0],
+  },
 };
 
 LoginForm.propTypes = {
-  loginValue: PropTypes.string.isRequired,
-  messageText: PropTypes.string,
-  messageType: PropTypes.oneOf(Message.types),
-  onLoginChange: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+  onEmailChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  passwordValue: PropTypes.string.isRequired,
+  message: PropTypes.shape({
+    text: PropTypes.string,
+    type: PropTypes.oneOf(Message.types),
+  }),
+  password: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({
-  forms: {
-    login: {
-      login,
-      messageText,
-      messageType,
-      password,
-    },
-  },
-}) => ({
-  loginValue: login,
-  messageText,
-  messageType,
-  passwordValue: password,
-});
+const mapStateToProps = ({ forms: { login } }) => login;
 
 export default connect(
   mapStateToProps,
   {
-    onLoginChange: changeLogin,
-    onPasswordChange: changePassword,
-    onSubmit: submit,
+    onEmailChange(value) {
+      return changeField('login', 'email', value);
+    },
+    onPasswordChange(value) {
+      return changeField('login', 'password', value);
+    },
+    onSubmit() {
+      return submit('login');
+    },
   }
 )(LoginForm);
 

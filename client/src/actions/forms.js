@@ -5,46 +5,51 @@ export const CHANGE_LOGIN = 'CHANGE_LOGIN';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 
+export const CHANGE_FIELD = 'CHANGE_FIELD';
 
-export const changeLogin = login => ({
-  payload: login,
-  type: CHANGE_LOGIN,
+export const changeField = (form, field, value) => ({
+  payload: {
+    form,
+    field,
+    value,
+  },
+  type: CHANGE_FIELD,
 });
 
-export const changePassword = password => ({
-  payload: password,
-  type: CHANGE_PASSWORD,
-});
-
-export const addMessage = ({ text, type }) => ({
-  payload: { text, type },
+export const addMessage = (form, { text, type }) => ({
+  payload: {
+    form,
+    message: { text, type },
+  },
   type: ADD_MESSAGE,
 });
 
-export const clearMessage = () => ({
+export const clearMessage = form => ({
+  payload: { form },
   type: CLEAR_MESSAGE,
 });
 
 export const SUBMIT_START = 'SUBMIT_START';
 export const SUBMIT_END = 'SUBMIT_END';
 
-export const submit = () => (dispatch, getState) => {
+export const submit = form => (dispatch, getState) => {
   dispatch({
     type: SUBMIT_START,
   });
 
-  const {
-    forms: {
-      login: { login, password },
-    },
-  } = getState();
+  const { forms: formsState } = getState();
 
-  return api.login({ login, password })
+  const payload = {
+    login: formsState[form].email,
+    password: formsState[form].password,
+  };
+
+  return api.login(payload)
     .then((response) => {
       dispatch({
         type: SUBMIT_END,
       });
-      dispatch(addMessage({
+      dispatch(addMessage(form, {
         text: response.toString(),
         type: 'success',
       }));
@@ -53,7 +58,7 @@ export const submit = () => (dispatch, getState) => {
       dispatch({
         type: SUBMIT_END,
       });
-      dispatch(addMessage({
+      dispatch(addMessage(form, {
         text: error.message,
         type: 'error',
       }));

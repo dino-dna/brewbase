@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 
-import { changeEmail, changePassword, submit } from '../actions/forms';
+import { changeField, submit } from '../actions/forms';
 import Button from '../components/Button';
-import colors from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
 import Message from '../components/Message';
@@ -104,26 +103,20 @@ SignupForm.propTypes = {
   password: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({
-  forms: {
-    signup: {
-      email,
-      message,
-      password,
-    },
-  },
-}) => ({
-  email,
-  message,
-  password,
-});
+const mapStateToProps = ({ forms: { signup } }) => signup;
 
 export default connect(
   mapStateToProps,
   {
-    onEmailChange: changeEmail,
-    onPasswordChange: changePassword,
-    onSubmit: submit,
+    onEmailChange(value) {
+      return changeField('signup', 'email', value);
+    },
+    onPasswordChange(value) {
+      return changeField('signup', 'password', value);
+    },
+    onSubmit() {
+      return submit('signup');
+    },
   }
 )(SignupForm);
 

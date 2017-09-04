@@ -2,16 +2,17 @@ import merge from 'lodash/merge';
 
 import {
   ADD_MESSAGE,
-  CHANGE_LOGIN,
-  CHANGE_PASSWORD,
+  CHANGE_FIELD,
   CLEAR_MESSAGE,
 } from '../actions/forms';
 
 const initialState = {
   login: {
-    login: '',
-    messageText: null,
-    messageType: null,
+    email: '',
+    message: {
+      text: null,
+      type: null,
+    },
     password: '',
   },
   signup: {
@@ -24,32 +25,32 @@ const initialState = {
   },
 };
 
-const formsReducer = (state = initialState, action) => {
-  switch (action.type) {
+/**
+ * @param {Object} state
+ * @param {Object} action
+ * @returns {Object} Modified state
+ */
+const formsReducer = (state = initialState, { payload, type }) => {
+  switch (type) {
     case ADD_MESSAGE:
       return merge({}, state, {
-        login: {
-          messageText: action.payload.text,
-          messageType: action.payload.type,
+        [payload.form]: {
+          message: payload.message,
         },
       });
-    case CHANGE_LOGIN:
+    case CHANGE_FIELD:
       return merge({}, state, {
-        login: {
-          login: action.payload,
-        },
-      });
-    case CHANGE_PASSWORD:
-      return merge({}, state, {
-        login: {
-          password: action.payload,
+        [payload.form]: {
+          [payload.field]: payload.value,
         },
       });
     case CLEAR_MESSAGE:
       return merge({}, state, {
-        login: {
-          messageText: null,
-          messageType: null,
+        [payload.form]: {
+          message: {
+            text: null,
+            type: null,
+          },
         },
       });
     default:
