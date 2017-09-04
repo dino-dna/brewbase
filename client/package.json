@@ -30,12 +30,14 @@
   },
   "dependencies": {
     "expo": "^20.0.0",
+    "history": "^4.7.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.0",
     "react-redux": "^5.0.6",
     "react-router-native": "^4.2.0",
+    "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },

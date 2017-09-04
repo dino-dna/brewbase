@@ -1,10 +1,12 @@
+import { push } from 'react-router-redux';
+
 import api from '../services/api';
 
 export const ACCOUNT_LOGIN = 'ACCOUNT_LOGIN';
 
 export const accountLogin = ({ email, token }) => ({
   payload: { email, token },
-  type: LOGIN,
+  type: ACCOUNT_LOGIN,
 });
 
 export const ACCOUNT_LOGOUT = 'ACCOUNT_LOGOUT';
@@ -23,6 +25,7 @@ export const login = ({ email, password }) => dispatch => {
         email,
         token: response.headers.Authorization,
       }));
+      dispatch(push('/dashboard'));
     })
     .catch((error) => {
     });
@@ -37,9 +40,9 @@ export const signup = ({ email, password }) => dispatch => {
         email,
         token: response.headers.Authorization,
       }));
+      dispatch(push('/dashboard'));
     })
     .catch((error) => {
     });
 };
-
 

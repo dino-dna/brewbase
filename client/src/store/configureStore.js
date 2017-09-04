@@ -1,13 +1,15 @@
 import { applyMiddleware, createStore } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 
+import history from './history';
 import rootReducer from '../reducers';
 
 const configureStore = (preloadedState) => {
   const store = createStore(
     rootReducer,
     preloadedState,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk, routerMiddleware(history))
   );
 
   if (module.hot) {
