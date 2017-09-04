@@ -44,7 +44,11 @@ export const submit = form => (dispatch, getState) => {
     password: formsState[form].password,
   };
 
-  return api.login(payload)
+  const method = form === 'signup' ?
+    api.signup :
+    api.login;
+
+  return method(payload)
     .then((response) => {
       dispatch({
         type: SUBMIT_END,

@@ -34,19 +34,31 @@ const api = {
   },
 
   signup({ login, password }) {
+    const headers = new Headers();
+
+    headers.append('Content-Type', 'application/json');
+
     return fetch(
       `${API_BASE}/create-account`,
       {
         body: JSON.stringify({ login, password }),
+        headers,
         method: 'POST',
       }
     )
-      .then((response) => {
+      .then(response => Promise.all([response, response.json()]))
+      .then(([response, json]) => {
         if (!response.ok) {
-          throw new Error(`Error signing up: ${response.statusText}`);
+          if (json.error) {
+            throw new Error(json.error);
+          } else if (response.statusText) {
+            throw new Error(`Signup error: ${response.statusText}`);
+          } else {
+            throw new Error(`Signup error: ${response.status}`);
+          }
         }
 
-        return response.json();
+        return json;
       });
   },
 };

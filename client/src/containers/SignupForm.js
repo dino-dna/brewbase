@@ -61,6 +61,7 @@ class SignupForm extends Component {
             onChangeText={onEmailChange}
             placeholder="Email"
             returnKeyType="next"
+            secureTextEntry={false}
             value={email}
           />
         </View>
