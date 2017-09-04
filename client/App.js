@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { NativeRouter, Route } from 'react-router-native';
 
-import api from './src/services/api';
-import LoginForm from './src/components/LoginForm';
+import configureStore from './src/store/configureStore';
+import Dashboard from './src/containers/Dashboard';
+import LoginForm from './src/containers/LoginForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,75 +16,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const store = configureStore();
+
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loginValue: '',
-      passwordValue: '',
-      message: null,
-      messageType: null,
-    };
-
-    this.onLoginChange = this.onLoginChange.bind(this);
-    this.onPasswordChange = this.onPasswordChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onLoginChange(value) {
-    this.setState(Object.assign({}, this.state, {
-      loginValue: value,
-    }));
-  }
-
-  onPasswordChange(value) {
-    this.setState(Object.assign({}, this.state, {
-      passwordValue: value,
-    }));
-  }
-
-  onSubmit() {
-    const { loginValue, passwordValue } = this.state;
-
-    api.login({
-      login: loginValue,
-      password: passwordValue,
-    })
-      .then((response) => {
-        this.setState(Object.assign({}, this.state, {
-          message: response.toString(),
-          type: 'success',
-        }));
-      })
-      .catch((error) => {
-        this.setState(Object.assign({}, this.state, {
-          message: error.message,
-          type: 'error',
-        }));
-      });
-  }
-
   render() {
-    const {
-      loginValue,
-      message,
-      messageType,
-      passwordValue,
-    } = this.state;
-
     return (
-      <View style={styles.container}>
-        <LoginForm
-          loginValue={loginValue}
-          message={message}
-          messageType={messageType}
-          onLoginChange={this.onLoginChange}
-          onPasswordChange={this.onPasswordChange}
-          onSubmit={this.onSubmit}
-          passwordValue={passwordValue}
-        />
-      </View>
+      <NativeRouter>
+        <Provider store={store}>
+          <View style={styles.container}>
+            <Route exact path="/" component={LoginForm} />
+            <Route path="/dashboard" component={Dashboard} />
+          </View>
+        </Provider>
+      </NativeRouter>
     );
   }
 }

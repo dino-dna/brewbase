@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -7,6 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import {
+  changeLogin,
+  changePassword,
+  submit,
+} from '../actions/forms';
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -87,21 +94,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   renderMessage() { // eslint-disable-line consistent-return
     const {
-      message,
+      messageText,
       messageType,
     } = this.props;
 
-    if (message) {
+    if (messageText) {
       const style = messageType === 'success' ?
         styles.messageContainerSuccess :
         styles.messageContainerError;
 
       return (
         <View style={style}>
-          <Text style={styles.messageText}>{message}</Text>
+          <Text style={styles.messageText}>{messageText}</Text>
         </View>
       );
     }
@@ -154,17 +161,42 @@ export default class LoginForm extends Component {
 }
 
 LoginForm.defaultProps = {
-  message: '',
+  messageText: '',
   messageType: 'success',
 };
 
 LoginForm.propTypes = {
   loginValue: PropTypes.string.isRequired,
-  message: PropTypes.string,
+  messageText: PropTypes.string,
   messageType: PropTypes.oneOf(['success', 'error']),
   onLoginChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   passwordValue: PropTypes.string.isRequired,
 };
+
+const mapStateToProps = ({
+  forms: {
+    login: {
+      login,
+      messageText,
+      messageType,
+      password,
+    },
+  },
+}) => ({
+  loginValue: login,
+  messageText,
+  messageType,
+  passwordValue: password,
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    onLoginChange: changeLogin,
+    onPasswordChange: changePassword,
+    onSubmit: submit,
+  }
+)(LoginForm);
 
