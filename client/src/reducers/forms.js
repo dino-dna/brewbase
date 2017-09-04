@@ -14,6 +14,14 @@ const initialState = {
     messageType: null,
     password: '',
   },
+  signup: {
+    email: '',
+    message: {
+      text: null,
+      type: null,
+    },
+    password: '',
+  },
 };
 
 const formsReducer = (state = initialState, action) => {

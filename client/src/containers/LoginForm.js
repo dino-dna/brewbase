@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -14,31 +13,21 @@ import {
   changePassword,
   submit,
 } from '../actions/forms';
+import colors from '../styles/colors';
+import Button from '../components/Button';
+import Message from '../components/Message';
+import NavLink from '../components/NavLink';
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    width: '100%',
-  },
-  buttonBackground: {
-    alignItems: 'center',
-    backgroundColor: '#c88d36',
-    width: '100%',
-  },
-  buttonText: {
-    color: 'white',
-    fontFamily: 'Avenir Next',
-    fontSize: 16,
-    fontWeight: '700',
-    lineHeight: 16,
-    padding: 20,
-  },
   container: {
     alignItems: 'center',
-    backgroundColor: '#f1edea',
+    backgroundColor: colors.lighterGray,
     flex: 1,
     justifyContent: 'center',
     padding: 20,
     width: '100%',
+  },
+  link: {
   },
   loginInput: {
     backgroundColor: 'white',
@@ -48,32 +37,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 20,
     width: '100%',
-  },
-  messageContainerError: {
-    alignItems: 'center',
-    backgroundColor: 'black',
-    marginBottom: 20,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    width: '100%',
-  },
-  messageContainerSuccess: {
-    alignItems: 'center',
-    backgroundColor: 'black',
-    marginBottom: 20,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    width: '100%',
-  },
-  messageText: {
-    color: 'white',
-    fontFamily: 'AvenirNextCondensed-MediumItalic',
-    fontSize: 16,
-    lineHeight: 20,
   },
   passwordInput: {
     backgroundColor: 'white',
@@ -85,7 +48,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    color: '#98997f',
+    color: colors.gray,
     fontFamily: 'AvenirNextCondensed-Bold',
     fontSize: 24,
     letterSpacing: 2,
@@ -102,14 +65,11 @@ class LoginForm extends Component {
     } = this.props;
 
     if (messageText) {
-      const style = messageType === 'success' ?
-        styles.messageContainerSuccess :
-        styles.messageContainerError;
-
       return (
-        <View style={style}>
-          <Text style={styles.messageText}>{messageText}</Text>
-        </View>
+        <Message
+          text={messageText}
+          type={messageType}
+        />
       );
     }
   }
@@ -132,7 +92,7 @@ class LoginForm extends Component {
           keyboardType="email-address"
           onChangeText={onLoginChange}
           placeholder="Email"
-          placeholderTextColor="#98997f"
+          placeholderTextColor={colors.gray}
           returnKeyType="next"
           style={styles.loginInput}
           value={loginValue}
@@ -141,24 +101,23 @@ class LoginForm extends Component {
           autoCapitalize="none"
           onChangeText={onPasswordChange}
           placeholder="Password"
-          placeholderTextColor="#98997f"
+          placeholderTextColor={colors.gray}
           returnKeyType="send"
           secureTextEntry
           style={styles.passwordInput}
           value={passwordValue}
         />
-        <TouchableOpacity
+        <Button
           onPress={onSubmit}
-          style={styles.buttonContainer}
-        >
-          <View style={styles.buttonBackground}>
-            <Text style={styles.buttonText}>SUBMIT</Text>
-          </View>
-        </TouchableOpacity>
+          text="Submit"
+        />
+        <NavLink to="/signup" text="Sign Up" />
       </View>
     );
   }
 }
+
+LoginForm.displayName = 'LoginForm';
 
 LoginForm.defaultProps = {
   messageText: '',
@@ -168,7 +127,7 @@ LoginForm.defaultProps = {
 LoginForm.propTypes = {
   loginValue: PropTypes.string.isRequired,
   messageText: PropTypes.string,
-  messageType: PropTypes.oneOf(['success', 'error']),
+  messageType: PropTypes.oneOf(Message.types),
   onLoginChange: PropTypes.func.isRequired,
   onPasswordChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

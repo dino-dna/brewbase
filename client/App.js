@@ -6,6 +6,7 @@ import { NativeRouter, Route } from 'react-router-native';
 import configureStore from './src/store/configureStore';
 import Dashboard from './src/containers/Dashboard';
 import LoginForm from './src/containers/LoginForm';
+import SignupForm from './src/containers/SignupForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,7 @@ export default class App extends React.Component {
           <View style={styles.container}>
             <Route exact path="/" component={LoginForm} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/signup" component={SignupForm} />
           </View>
         </Provider>
       </NativeRouter>
