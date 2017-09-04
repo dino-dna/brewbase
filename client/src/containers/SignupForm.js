@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
+import { changeEmail, changePassword, submit } from '../actions/forms';
 import Button from '../components/Button';
+import colors from '../styles/colors';
+import FormInput from '../components/FormInput';
+import FormTitle from '../components/FormTitle';
 import Message from '../components/Message';
 
 const styles = StyleSheet.create({
   container: {},
-  emailInput: {},
+  emailInput: {
+    backgroundColor: 'white',
+    color: 'black',
+  },
   passwordInput: {},
 });
 
@@ -45,26 +47,20 @@ class SignupForm extends Component {
     return (
       <View style={styles.container}>
         {this.renderMessage()}
-        <Text>SIGN UP</Text>
-        <TextInput
-          autoCapitalize="none"
+        <FormTitle>Sign Up</FormTitle>
+        <FormInput
           keyboardType="email-address"
           onChangeText={onEmailChange}
           placeholder="Email"
-          placeholderTextColor="#98997f"
           returnKeyType="next"
           value={email}
-          style={styles.emailInput}
         />
-        <TextInput
-          autoCapitalize="none"
+        <FormInput
           onChangeText={onPasswordChange}
           placeholder="Password"
-          placeholderTextColor="#98997f"
           returnKeyType="send"
           value={password}
           secureTextEntry
-          style={styles.passwordInput}
         />
         <Button
           onPress={onSubmit}
@@ -110,5 +106,12 @@ const mapStateToProps = ({
   password,
 });
 
-export default connect(mapStateToProps)(SignupForm);
+export default connect(
+  mapStateToProps,
+  {
+    onEmailChange: changeEmail,
+    onPasswordChange: changePassword,
+    onSubmit: submit,
+  }
+)(SignupForm);
 

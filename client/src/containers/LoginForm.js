@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import {
   changeLogin,
@@ -15,6 +11,7 @@ import {
 import colors from '../styles/colors';
 import Button from '../components/Button';
 import Message from '../components/Message';
+import FormInput from '../components/FormInput';
 import FormTitle from '../components/FormTitle';
 import NavLink from '../components/NavLink';
 
@@ -27,24 +24,12 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '100%',
   },
-  link: {
-  },
   loginInput: {
-    backgroundColor: 'white',
-    color: 'black',
-    fontFamily: 'Menlo',
-    height: 60,
     marginBottom: 10,
-    padding: 20,
     width: '100%',
   },
   passwordInput: {
-    backgroundColor: 'white',
-    color: 'black',
-    fontFamily: 'Menlo',
-    height: 60,
     marginBottom: 30,
-    padding: 20,
     width: '100%',
   },
 });
@@ -79,26 +64,24 @@ class LoginForm extends Component {
       <View style={styles.container}>
         {this.renderMessage()}
         <FormTitle>Log In</FormTitle>
-        <TextInput
-          autoCapitalize="none"
-          keyboardType="email-address"
-          onChangeText={onLoginChange}
-          placeholder="Email"
-          placeholderTextColor={colors.gray}
-          returnKeyType="next"
-          style={styles.loginInput}
-          value={loginValue}
-        />
-        <TextInput
-          autoCapitalize="none"
-          onChangeText={onPasswordChange}
-          placeholder="Password"
-          placeholderTextColor={colors.gray}
-          returnKeyType="send"
-          secureTextEntry
-          style={styles.passwordInput}
-          value={passwordValue}
-        />
+        <View style={styles.loginInput}>
+          <FormInput
+            keyboardType="email-address"
+            onChangeText={onLoginChange}
+            placeholder="Email"
+            returnKeyType="next"
+            value={loginValue}
+          />
+        </View>
+        <View style={styles.passwordInput}>
+          <FormInput
+            onChangeText={onPasswordChange}
+            placeholder="Password"
+            returnKeyType="send"
+            secureTextEntry
+            value={passwordValue}
+          />
+        </View>
         <Button
           onPress={onSubmit}
           text="Submit"
