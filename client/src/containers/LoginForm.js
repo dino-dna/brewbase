@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -16,6 +15,7 @@ import {
 import colors from '../styles/colors';
 import Button from '../components/Button';
 import Message from '../components/Message';
+import FormTitle from '../components/FormTitle';
 import NavLink from '../components/NavLink';
 
 const styles = StyleSheet.create({
@@ -46,14 +46,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     padding: 20,
     width: '100%',
-  },
-  title: {
-    color: colors.gray,
-    fontFamily: 'AvenirNextCondensed-Bold',
-    fontSize: 24,
-    letterSpacing: 2,
-    lineHeight: 36,
-    marginBottom: 20,
   },
 });
 
@@ -86,7 +78,7 @@ class LoginForm extends Component {
     return (
       <View style={styles.container}>
         {this.renderMessage()}
-        <Text style={styles.title}>LOG IN</Text>
+        <FormTitle>Log In</FormTitle>
         <TextInput
           autoCapitalize="none"
           keyboardType="email-address"
