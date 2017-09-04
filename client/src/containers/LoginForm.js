@@ -17,8 +17,6 @@ import NavLink from '../components/NavLink';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    backgroundColor: colors.lighterGray,
     flex: 1,
     justifyContent: 'center',
     padding: 20,

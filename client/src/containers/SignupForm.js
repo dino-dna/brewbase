@@ -11,12 +11,20 @@ import FormTitle from '../components/FormTitle';
 import Message from '../components/Message';
 
 const styles = StyleSheet.create({
-  container: {},
-  emailInput: {
-    backgroundColor: 'white',
-    color: 'black',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    width: '100%',
   },
-  passwordInput: {},
+  emailInput: {
+    marginBottom: 10,
+    width: '100%',
+  },
+  passwordInput: {
+    marginBottom: 20,
+    width: '100%',
+  },
 });
 
 class SignupForm extends Component {
@@ -48,20 +56,24 @@ class SignupForm extends Component {
       <View style={styles.container}>
         {this.renderMessage()}
         <FormTitle>Sign Up</FormTitle>
-        <FormInput
-          keyboardType="email-address"
-          onChangeText={onEmailChange}
-          placeholder="Email"
-          returnKeyType="next"
-          value={email}
-        />
-        <FormInput
-          onChangeText={onPasswordChange}
-          placeholder="Password"
-          returnKeyType="send"
-          value={password}
-          secureTextEntry
-        />
+        <View style={styles.emailInput}>
+          <FormInput
+            keyboardType="email-address"
+            onChangeText={onEmailChange}
+            placeholder="Email"
+            returnKeyType="next"
+            value={email}
+          />
+        </View>
+        <View style={styles.passwordInput}>
+          <FormInput
+            onChangeText={onPasswordChange}
+            placeholder="Password"
+            returnKeyType="send"
+            value={password}
+            secureTextEntry
+          />
+        </View>
         <Button
           onPress={onSubmit}
           text="SUBMIT"

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { NativeRouter, Route } from 'react-router-native';
 
+import colors from './src/styles/colors';
 import configureStore from './src/store/configureStore';
 import Dashboard from './src/containers/Dashboard';
 import LoginForm from './src/containers/LoginForm';
@@ -11,7 +12,7 @@ import SignupForm from './src/containers/SignupForm';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.lighterGray,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     lineHeight: 36,
     marginBottom: 20,
+    textAlign: 'center',
   },
 });
 
