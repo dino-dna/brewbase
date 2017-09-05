@@ -7,6 +7,8 @@ volumes:
 services:
   db:
     build: ./db/
+    ports:
+      - 3333:5432
     volumes:
       - database_data:/var/lib/postgresql/data
   web:
